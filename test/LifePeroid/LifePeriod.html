@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LoginForm</title>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/javascript" src="../../library/react.development.js"></script>
+<script type="text/javascript" src="../../library/react-dom.development.js"></script>
+<script type="text/javascript" src="../../library/babel.min.js"></script>
+<script type="text/javascript" src="../../library/prop-types.js"></script>
+<script type="text/babel">
+    class Life extends React.Component{
+        constructor(props) {
+            console.log("constructor(props)")
+            super(props)
+            this.state = {
+                opacity:1
+            }
+            this.distroyComponent = this.distroyComponent.bind(this)
+        }
+
+        componentWillMount() {
+            console.log("componentWillMount()")
+        }
+        componentDidMount() {
+            console.log("componentDidMount()")
+            //启动循环定时器
+            this.intervalId = setInterval(function () {
+                console.log("定时器执行")
+                let {opacity} = this.state //这个this是componentDidMount的
+                opacity -= 0.1
+                //if(opacity===0) {
+                if(opacity<=0) {
+                    opacity = 1
+                }
+                this.setState({opacity})
+            }.bind(this), 200) //这个this是componentDidMount所在的组件的对象
+        }
+
+        componentWillUpdate() {
+            console.log("componentWillUpdate()")
+        }
+        componentDidUpdate() {
+            console.log("componentDidUpdate()")
+        }
+
+        distroyComponent() {
+            console.log("distroyComponent()")
+            ReactDOM.unmountComponentAtNode(document.getElementById("example"))
+        }
+
+        componentWillUnmount() {
+            console.log("componentWillUnmount()")
+            clearInterval(this.intervalId)
+        }
+
+        render() {
+            console.log("render()")
+            const {opacity} = this.state
+            return(
+                <div>
+                    <h2 style={{opacity: opacity}}>
+                        {this.props.msg}
+                    </h2>
+                    <button onClick={this.distroyComponent}>不活了</button>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(<Life msg="react太难了！"/>, document.getElementById("example"))
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>LoginForm</title>
+    </head>
+<body>
+<div id="example"></div>
+<script type="text/javascript" src="../../library/react.development.js"></script>
+<script type="text/javascript" src="../../library/react-dom.development.js"></script>
+<script type="text/javascript" src="../../library/babel.min.js"></script>
+<script type="text/javascript" src="../../library/prop-types.js"></script>
+<script type="text/babel">
+    class LoginForm extends React.Component{
+
+        constructor(props) {
+            super(props)
+            this.state = {
+                pwd:''
+            }
+            this.handleSubmit = this.handleSubmit.bind(this)
+            this.handChange = this.handChange.bind(this)
+        }
+
+        handleSubmit(event){
+            const name = this.nameInput.value
+            const {pwd} = this.state
+            alert(`准备提交的用户名为${name},密码为${pwd}`)
+            //阻止实践的默认行为(提交)
+            event.preventDefault()
+        }
+
+        handChange(event) {
+            // 读取输入的值
+            const pwd = event.target.value
+            //更新状态
+            this.setState({pwd})
+        }
+
+        //原生dom input的onchange是在失去焦点的时候触发
+        //react的onchange在输入改变的时候就会调用
+        //用户名是非受控组件，密码的读取是受控组件，也是非受控组件。react推荐用受控组件，这样可以避免直接操作dom。react是操作state
+        render() {
+            return(
+                <form action="/test" onSubmit={this.handleSubmit}>
+                    用户名: <input type="text" ref={input => this.nameInput = input} />
+                    密码： <input type="password" value={this.state.pwd} onChange={this.handChange}/>
+                    <input type="submit" value="登录 "/>
+                </form>
+            )
+        }
+    }
+    ReactDOM.render(<LoginForm/>, document.getElementById("example"))
+</script>
+</body>
+</html>
