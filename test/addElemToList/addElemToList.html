@@ -30,12 +30,12 @@
                     this.setState(todos)
                 }
 
+                // 给Add组件传递数据
                 render() {
                     const {todos} =this.state
                     return(
                         <div>
                             <h1>Simple TODO List</h1>
-                            <!-- 给Add组件传递数据 -->
                             <Add count={todos.length} addTodo={this.addTodo}/>
                             <List todos={todos}/>
                         </div>
